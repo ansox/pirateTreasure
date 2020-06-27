@@ -3,6 +3,11 @@ import Animation from './animation.js';
 
 export default class Bomb {
   static image;
+  static imageExplosion;
+
+  static STATE_BOMB = 'bomb';
+  static STATE_EXPLOSTION = 'explosion';
+  static STATE_DESTROYED = 'destroyed';
 
   constructor(x) {
     this.width = 96;
@@ -13,12 +18,16 @@ export default class Bomb {
     this.initalY = this.y;
 
     this.maxFrames = 10;
-    this.frameSpeed = 3;
+    this.frameSpeed = 2;
     this.speed = 3;
+    this.maxFramesExplosion = 9;
+    this.frameSpeedExplosion = 2;
 
     this.distance = 15;
     this.gravity = 2;
     this.forceSpeed = -35;
+
+    this.state = Bomb.STATE_BOMB;
 
     this.animation = new Animation();
     this.animation.add(
@@ -26,32 +35,47 @@ export default class Bomb {
       this.width, this.height,
       4, this.maxFrames, this.frameSpeed
     )
+    this.animation.add(
+      'explosion', Bomb.imageExplosion,
+      this.width, this.height,
+      4, this.maxFramesExplosion, this.frameSpeedExplosion, false
+    )
   }
 
   static preload() {
     Bomb.image = loadImage('./game/imgs/bomb.png');
+    Bomb.imageExplosion = loadImage('./game/imgs/explosion.png');
   }
 
   tick() {
-    this.y = this.y + this.forceSpeed;
-    this.forceSpeed += this.gravity;
+    if (this.state === Bomb.STATE_BOMB) {
+      this.y = this.y + this.forceSpeed;
+      this.forceSpeed += this.gravity;
 
-    if (this.y > this.initalY) {
-      this.y = this.initalY;
-      this.distance = -4;
-    }
-
-    this.x += this.distance;
-
-    if (this.isColliding(Game.enemy)) {
-      console.log('boommm');
-    }
-
-    Game.bombs.forEach(bomb => {
-      if (bomb.x < - bomb.width) {
-        Game.bombs = Game.bombs.filter(item => item != bomb)
+      if (this.y > this.initalY) {
+        this.y = this.initalY;
+        this.distance = -4;
       }
-    })
+
+      this.x += this.distance;
+
+      if (this.isColliding(Game.enemy)) {
+        console.log('boommm');
+        this.state = Bomb.STATE_EXPLOSTION;
+        Game.enemy.hit();
+      }
+
+      Game.bombs.forEach(bomb => {
+        if (bomb.x < - bomb.width) {
+          Game.bombs = Game.bombs.filter(item => item != bomb)
+        }
+      });
+    }
+
+    if (this.animation.isEnded('explosion')) {
+      this.state = Bomb.STATE_DESTROYED;
+      Game.bombs = Game.bombs.filter(item => item != this)
+    }
   }
 
   drawn() {
@@ -59,7 +83,13 @@ export default class Bomb {
     // noFill();
     // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
-    this.animation.play('bomb', this.x, this.y, this.scale);
+    if (this.state === Bomb.STATE_BOMB) {
+      this.animation.play('bomb', this.x, this.y, this.scale);
+    }
+    else if (this.state === Bomb.STATE_EXPLOSTION) {
+      this.animation.play('explosion', this.x, this.y, this.scale);
+    }
+
   }
 
   isColliding(enemy) {

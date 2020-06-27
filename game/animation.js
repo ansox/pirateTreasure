@@ -5,7 +5,7 @@ export default class Animation {
     this.animations = {};
   }
 
-  add(id, spriteSheet, width, height, cols, totalFrames, speed) {
+  add(id, spriteSheet, width, height, cols, totalFrames, speed, loop = true) {
     this.animations[id] = {
       spriteSheet,
       width,
@@ -14,21 +14,37 @@ export default class Animation {
       totalFrames,
       frameActual: 0,
       speed,
-      countTick: 0
+      countTick: 0,
+      loop,
+      ended: false
     }
   }
 
   next(animation) {
-    animation.countTick++;
+    if (!animation.ended) {
+      animation.countTick++;
 
-    if (animation.countTick > animation.speed) {
-      animation.countTick = 0
+      if (animation.countTick > animation.speed) {
+        animation.countTick = 0
 
-      animation.frameActual++
-      if (animation.frameActual >= animation.totalFrames) {
-        animation.frameActual = 0;
+        animation.frameActual++
+        if (animation.frameActual >= animation.totalFrames) {
+          animation.frameActual = 0;
+
+          if (!animation.loop) {
+            animation.ended = true;
+          }
+        }
       }
     }
+  }
+
+  isEnded(id) {
+    return this.animations[id].ended;
+  }
+
+  restart(id) {
+    this.animations[id].ended = false;
   }
 
   play(id, x, y, scale) {
