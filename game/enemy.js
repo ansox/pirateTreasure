@@ -38,6 +38,10 @@ export default class Enemy {
   }
 
   drawn() {
+    stroke('red');
+    noFill();
+    rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+
     image(Enemy.image, this.x, this.y, this.width * this.scale,
       this.height * this.scale, this.frames[this.frame].x, this.frames[this.frame].y, this.width, this.height);
   }

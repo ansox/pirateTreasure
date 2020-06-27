@@ -1,4 +1,6 @@
 import Frames from './utils/frames.js'
+import Bomb from './bomb.js';
+import Game from './game.js';
 
 export default class Player {
   static image;
@@ -33,6 +35,14 @@ export default class Player {
   }
 
   tick() {
+    this.y = this.y + this.jumpSpeed;
+    this.jumpSpeed += this.gravity;
+
+    if (this.y > this.yInitial) {
+      this.y = this.yInitial;
+      this.isJump = false;
+    }
+
     this.countTick++;
 
     if (this.isJump) {
@@ -63,17 +73,15 @@ export default class Player {
   }
 
   bomb() {
-
+    const bomb = new Bomb(this.x);
+    Game.bombs.push(bomb);
+    console.log('bomb');
   }
 
   drawn() {
-    this.y = this.y + this.jumpSpeed;
-    this.jumpSpeed += this.gravity;
-
-    if (this.y > this.yInitial) {
-      this.y = this.yInitial;
-      this.isJump = false;
-    }
+    stroke('red');
+    noFill();
+    rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
     if (!this.isJump) {
       image(Player.image, this.x, this.y, this.width * this.scale,

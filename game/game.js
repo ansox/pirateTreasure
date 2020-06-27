@@ -4,6 +4,8 @@ import Enemy from './enemy.js';
 import Bomb from './bomb.js';
 
 export default class Game {
+  static bombs = [];
+
   constructor() {
   }
 
@@ -19,12 +21,15 @@ export default class Game {
     this.scenario = new Scenario(2);
     this.player = new Player();
     this.enemy = new Enemy();
-    this.bomb = new Bomb();
   }
 
   keyPressed(key) {
     if (key === ' ') {
       this.player.jump();
+    }
+
+    if (key === 'z' || key === 'Z') {
+      this.player.bomb();
     }
   }
 
@@ -38,8 +43,10 @@ export default class Game {
     this.enemy.tick();
     this.enemy.drawn();
 
-    this.bomb.tick();
-    this.bomb.drawn();
+    Game.bombs.forEach(bomb => {
+      bomb.tick();
+      bomb.drawn();
+    })
 
     if (this.enemy.x < - this.enemy.width) {
       this.enemy.x = width + this.enemy.width;

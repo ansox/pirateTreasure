@@ -10,8 +10,6 @@ export default class Frames {
       result.push({
         x: width * (1 * col),
         y: height * (1 * row),
-        col,
-        row
       })
     }
 

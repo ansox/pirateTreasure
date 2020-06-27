@@ -3,23 +3,27 @@ import Frames from './utils/frames.js';
 export default class Bomb {
   static image;
 
-  constructor() {
+  constructor(x) {
     this.width = 96;
     this.height = 108;
     this.scale = 2;
-    this.x = 240;
+    this.x = x;
     this.y = height - (this.height * this.scale) + 5;
+    this.initalY = this.y;
 
     this.frames = [];
     this.frame = 0;
     this.maxFrames = 10;
     this.frameSpeed = 3;
     this.countTick = 0;
+    this.speed = 3;
+
+    this.distance = 15;
+    this.gravity = 2;
+    this.forceSpeed = -35;
+
 
     this.frames = Frames.mountFrames(this.width, this.height, 4, this.maxFrames);
-
-    console.table(this.frames);
-
   }
 
   static preload() {
@@ -27,6 +31,16 @@ export default class Bomb {
   }
 
   tick() {
+    this.y = this.y + this.forceSpeed;
+    this.forceSpeed += this.gravity;
+
+    if (this.y > this.initalY) {
+      this.y = this.initalY;
+      this.distance = -4;
+    }
+
+    this.x += this.distance;
+
     this.countTick++;
     if (this.countTick > this.frameSpeed) {
       this.countTick = 0
@@ -39,6 +53,10 @@ export default class Bomb {
   }
 
   drawn() {
+    stroke('red');
+    noFill();
+    rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+
     image(Bomb.image, this.x, this.y,
       this.width * this.scale, this.height * this.scale,
       this.frames[this.frame].x, this.frames[this.frame].y,
