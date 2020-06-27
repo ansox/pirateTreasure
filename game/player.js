@@ -5,6 +5,10 @@ import Animation from './animation.js';
 export default class Player {
   static image;
   static imageJump;
+  static imageHit;
+
+  static STATE_RUN = 'run';
+  static STATE_HIT = 'hit';
 
   constructor() {
     this.height = 58;
@@ -16,6 +20,11 @@ export default class Player {
     this.frameSpeed = 1;
     this.maxFramesJump = 4;
     this.frameSpeedJump = 3;
+    this.maxFramesHit = 8;
+    this.frameSpeedHit = 2;
+
+    this.state = Player.STATE_RUN;
+
     this.yInitial = this.y;
     this.isJump = false;
     this.bombLimit = 2;
@@ -34,11 +43,17 @@ export default class Player {
       this.width, this.height,
       2, this.maxFramesJump, this.frameSpeedJump
     )
+
+    this.animation.add('hit', Player.imageHit,
+      this.width, this.height,
+      3, this.maxFramesHit, this.frameSpeedHit, false
+    )
   }
 
   static preload() {
     Player.image = loadImage('./game/imgs/player.png');
     Player.imageJump = loadImage('./game/imgs/playerJump.png');
+    Player.imageHit = loadImage('./game/imgs/playerHit.png');
   }
 
   tick() {
@@ -48,6 +63,17 @@ export default class Player {
     if (this.y > this.yInitial) {
       this.y = this.yInitial;
       this.isJump = false;
+    }
+
+    if (this.isCollidingWithEnemy()) {
+      this.state = Player.STATE_HIT;
+    }
+
+    if (this.state === Player.STATE_HIT) {
+      if (this.animation.isEnded('hit')) {
+        this.animation.restart('hit');
+        this.state = Player.STATE_RUN;
+      }
     }
   }
 
@@ -65,17 +91,29 @@ export default class Player {
     }
   }
 
+  isCollidingWithEnemy() {
+    const collision = collideRectRect(
+      this.x, this.y, this.width, this.height,
+      Game.enemy.x, Game.enemy.y, Game.enemy.width, Game.enemy.height
+    )
+
+    return collision;
+  }
+
   drawn() {
     // stroke('red');
     // noFill();
     // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
-    if (this.isJump) {
-      this.animation.play('jump', this.x, this.y, this.scale)
+    if (this.state === Player.STATE_RUN) {
+      if (this.isJump) {
+        this.animation.play('jump', this.x, this.y, this.scale)
+      }
+      else {
+        this.animation.play('run', this.x, this.y, this.scale);
+      }
+    } else if (this.state === Player.STATE_HIT) {
+      this.animation.play('hit', this.x, this.y, this.scale);
     }
-    else {
-      this.animation.play('run', this.x, this.y, this.scale);
-    }
-
   }
 }

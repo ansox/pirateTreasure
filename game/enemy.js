@@ -12,7 +12,7 @@ export default class Enemy {
     this.scale = 2;
     this.x = width - this.width - 100;
     this.y = height - (this.height * this.scale) - 30;
-    this.speed = 5;
+    this.speed = 10;
 
     this.state = Enemy.STATE_RUN;
 
