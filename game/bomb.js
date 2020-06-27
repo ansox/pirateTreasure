@@ -1,5 +1,5 @@
-import Frames from './utils/frames.js';
 import Game from './game.js';
+import Animation from './animation.js';
 
 export default class Bomb {
   static image;
@@ -12,19 +12,20 @@ export default class Bomb {
     this.y = height - (this.height * this.scale) + 5;
     this.initalY = this.y;
 
-    this.frames = [];
-    this.frame = 0;
     this.maxFrames = 10;
     this.frameSpeed = 3;
-    this.countTick = 0;
     this.speed = 3;
 
     this.distance = 15;
     this.gravity = 2;
     this.forceSpeed = -35;
 
-
-    this.frames = Frames.mountFrames(this.width, this.height, 4, this.maxFrames);
+    this.animation = new Animation();
+    this.animation.add(
+      'bomb', Bomb.image,
+      this.width, this.height,
+      4, this.maxFrames, this.frameSpeed
+    )
   }
 
   static preload() {
@@ -42,19 +43,8 @@ export default class Bomb {
 
     this.x += this.distance;
 
-    this.countTick++;
-    if (this.countTick > this.frameSpeed) {
-      this.countTick = 0
-
-      this.frame++
-      if (this.frame >= this.maxFrames) {
-        this.frame = 0;
-      }
-    }
-
     if (this.isColliding(Game.enemy)) {
       console.log('boommm');
-
     }
 
     Game.bombs.forEach(bomb => {
@@ -69,10 +59,7 @@ export default class Bomb {
     // noFill();
     // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
-    image(Bomb.image, this.x, this.y,
-      this.width * this.scale, this.height * this.scale,
-      this.frames[this.frame].x, this.frames[this.frame].y,
-      this.width, this.height);
+    this.animation.play('bomb', this.x, this.y, this.scale);
   }
 
   isColliding(enemy) {

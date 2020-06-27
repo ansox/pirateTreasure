@@ -1,6 +1,6 @@
-import Frames from './utils/frames.js'
 import Bomb from './bomb.js';
 import Game from './game.js';
+import Animation from './animation.js';
 
 export default class Player {
   static image;
@@ -12,11 +12,10 @@ export default class Player {
     this.scale = 2;
     this.x = 40;
     this.y = height - (this.height * this.scale) - 30;
-    this.frameActual = 0;
     this.maxFrames = 14;
     this.frameSpeed = 1;
-    this.countTick = 0;
     this.maxFramesJump = 4;
+    this.frameSpeedJump = 3;
     this.yInitial = this.y;
     this.isJump = false;
     this.bombLimit = 2;
@@ -24,10 +23,17 @@ export default class Player {
     this.gravity = 3;
     this.jumpSpeed = 0;
     this.jumpHeight = -35;
-    this.jumpFrameActual = 0
 
-    this.frames = Frames.mountFrames(this.width, this.height, 4, this.maxFrames);
-    this.framesJump = Frames.mountFrames(this.width, this.height, 2, this.maxFramesJump);
+    this.animation = new Animation();
+    this.animation.add('run', Player.image,
+      this.width, this.height,
+      4, this.maxFrames, this.frameSpeed
+    )
+
+    this.animation.add('jump', Player.imageJump,
+      this.width, this.height,
+      2, this.maxFramesJump, this.frameSpeedJump
+    )
   }
 
   static preload() {
@@ -42,29 +48,6 @@ export default class Player {
     if (this.y > this.yInitial) {
       this.y = this.yInitial;
       this.isJump = false;
-    }
-
-    this.countTick++;
-
-    if (this.isJump) {
-      if (this.countTick > 3) {
-        this.countTick = 0
-
-        this.jumpFrameActual++
-        if (this.jumpFrameActual >= this.maxFramesJump) {
-          this.jumpFrameActual = 0;
-        }
-      }
-    }
-    else {
-      if (this.countTick > this.frameSpeed) {
-        this.countTick = 0
-
-        this.frameActual++
-        if (this.frameActual >= this.maxFrames) {
-          this.frameActual = 0;
-        }
-      }
     }
   }
 
@@ -87,14 +70,12 @@ export default class Player {
     // noFill();
     // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
-    if (!this.isJump) {
-      image(Player.image, this.x, this.y, this.width * this.scale,
-        this.height * this.scale, this.frames[this.frameActual].x, this.frames[this.frameActual].y, this.width, this.height);
+    if (this.isJump) {
+      this.animation.play('jump', this.x, this.y, this.scale)
     }
     else {
-      image(Player.imageJump, this.x, this.y, this.width * this.scale,
-        this.height * this.scale, this.framesJump[this.jumpFrameActual].x,
-        this.framesJump[this.jumpFrameActual].y, this.width, this.height);
+      this.animation.play('run', this.x, this.y, this.scale);
     }
+
   }
 }

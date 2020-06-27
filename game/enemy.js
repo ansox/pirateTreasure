@@ -1,4 +1,4 @@
-import Frames from './utils/frames.js'
+import Animation from './animation.js';
 
 export default class Enemy {
   static image;
@@ -11,13 +11,15 @@ export default class Enemy {
     this.y = height - (this.height * this.scale) - 30;
     this.speed = 5;
 
-    this.frames = [];
-    this.frame = 0;
     this.maxFrames = 14;
     this.frameSpeed = 2;
-    this.countTick = 0;
 
-    this.frames = Frames.mountFrames(this.width, this.height, 4, this.maxFrames);
+    this.animation = new Animation();
+    this.animation.add(
+      'run', Enemy.image,
+      this.width, this.height,
+      4, this.maxFrames, this.frameSpeed
+    )
   }
 
   static preload() {
@@ -26,15 +28,6 @@ export default class Enemy {
 
   tick() {
     this.x -= this.speed;
-    this.countTick++;
-    if (this.countTick > this.frameSpeed) {
-      this.countTick = 0
-
-      this.frame++
-      if (this.frame >= this.maxFrames) {
-        this.frame = 0;
-      }
-    }
   }
 
   drawn() {
@@ -42,7 +35,6 @@ export default class Enemy {
     // noFill();
     // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
-    image(Enemy.image, this.x, this.y, this.width * this.scale,
-      this.height * this.scale, this.frames[this.frame].x, this.frames[this.frame].y, this.width, this.height);
+    this.animation.play('run', this.x, this.y, this.scale);
   }
 }
