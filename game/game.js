@@ -2,18 +2,27 @@ import Scenario from './scenario.js';
 import Player from './player.js';
 import Enemy from './enemy.js';
 import Bomb from './bomb.js';
+import EnemySprites from './enemySprites.js';
 
 export default class Game {
   static bombs = [];
-  enemy;
+  static enemy;
 
   constructor() {
   }
 
+  preloadEnemies(enemyList) {
+    this.enemyList = enemyList;
+    this.enemyList.list.forEach(enemy => {
+      EnemySprites.add(enemy);
+    })
+  }
+
   preload() {
+    loadJSON('./game/json/enemies.json', this.preloadEnemies.bind(this));
+
     Scenario.preload();
     Player.preload();
-    Enemy.preload();
     Bomb.preload();
   }
 
@@ -21,7 +30,7 @@ export default class Game {
     createCanvas(windowWidth, windowHeight);
     this.scenario = new Scenario(2);
     this.player = new Player();
-    Game.enemy = new Enemy();
+    Game.enemy = new Enemy(this.enemyList.list[3], 6);
     collideDebug(true);
   }
 

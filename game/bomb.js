@@ -59,11 +59,6 @@ export default class Bomb {
 
       this.x += this.distance;
 
-      if (this.isColliding(Game.enemy)) {
-        console.log('boommm');
-        this.state = Bomb.STATE_EXPLOSTION;
-        Game.enemy.hit();
-      }
 
       Game.bombs.forEach(bomb => {
         if (bomb.x < - bomb.width) {
@@ -90,14 +85,5 @@ export default class Bomb {
       this.animation.play('explosion', this.x, this.y, this.scale);
     }
 
-  }
-
-  isColliding(enemy) {
-    const collision = collideRectRect(
-      this.x, this.y, this.width, this.height,
-      enemy.x, enemy.y, enemy.width, enemy.height
-    )
-
-    return collision;
   }
 }

@@ -1,0 +1,72 @@
+{
+  "list": [
+    {
+      "id": "enemy01",
+      "width": 80,
+      "height": 72,
+      "maxFrames": 14,
+      "frameSpeed": 2,
+      "colFrames": 4,
+      "maxFramesHit": 6,
+      "frameSpeedHit": 2,
+      "colFramesHit": 4,
+      "maxFramesAtack": 0,
+      "frameSpeedAtack": 0,
+      "colFramesAtack": 0,
+      "runSpritesheet": "./game/imgs/enemy01.png",
+      "hitSpritesheet": "./game/imgs/enemy01-hit.png",
+      "atackspriteSheet": ""
+    },
+    {
+      "id": "enemy02",
+      "width": 68,
+      "height": 46,
+      "maxFrames": 14,
+      "frameSpeed": 4,
+      "colFrames": 14,
+      "maxFramesHit": 6,
+      "frameSpeedHit": 2,
+      "colFramesHit": 7,
+      "maxFramesAtack": 10,
+      "frameSpeedAtack": 2,
+      "colFramesAtack": 3,
+      "runSpritesheet": "./game/imgs/enemy02.png",
+      "hitSpritesheet": "./game/imgs/enemy02-hit.png",
+      "atackspriteSheet": "./game/imgs/enemy02-atack.png"
+    },
+    {
+      "id": "enemy03",
+      "width": 64,
+      "height": 68,
+      "maxFrames": 12,
+      "frameSpeed": 3,
+      "colFrames": 4,
+      "maxFramesHit": 8,
+      "frameSpeedHit": 2,
+      "colFramesHit": 3,
+      "maxFramesAtack": 0,
+      "frameSpeedAtack": 0,
+      "colFramesAtack": 0,
+      "runSpritesheet": "./game/imgs/enemy03.png",
+      "hitSpritesheet": "./game/imgs/enemy03-hit.png",
+      "atackspriteSheet": ""
+    },
+    {
+      "id": "enemy04",
+      "width": 77,
+      "height": 74,
+      "maxFrames": 16,
+      "frameSpeed": 3,
+      "colFrames": 4,
+      "maxFramesHit": 8,
+      "frameSpeedHit": 2,
+      "colFramesHit": 3,
+      "maxFramesAtack": 0,
+      "frameSpeedAtack": 0,
+      "colFramesAtack": 0,
+      "runSpritesheet": "./game/imgs/enemy04.png",
+      "hitSpritesheet": "./game/imgs/enemy04-hit.png",
+      "atackspriteSheet": ""
+    }
+  ]
+}
