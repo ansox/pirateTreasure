@@ -5,6 +5,7 @@ import Bomb from './bomb.js';
 
 export default class Game {
   static bombs = [];
+  enemy;
 
   constructor() {
   }
@@ -20,7 +21,8 @@ export default class Game {
     createCanvas(windowWidth, windowHeight);
     this.scenario = new Scenario(2);
     this.player = new Player();
-    this.enemy = new Enemy();
+    Game.enemy = new Enemy();
+    collideDebug(true);
   }
 
   keyPressed(key) {
@@ -40,16 +42,16 @@ export default class Game {
     this.player.tick();
     this.player.drawn();
 
-    this.enemy.tick();
-    this.enemy.drawn();
+    Game.enemy.tick();
+    Game.enemy.drawn();
 
     Game.bombs.forEach(bomb => {
       bomb.tick();
       bomb.drawn();
     })
 
-    if (this.enemy.x < - this.enemy.width) {
-      this.enemy.x = width + this.enemy.width;
+    if (Game.enemy.x < - Game.enemy.width) {
+      Game.enemy.x = width + Game.enemy.width;
     }
   }
 }

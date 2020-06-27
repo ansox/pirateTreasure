@@ -1,4 +1,5 @@
 import Frames from './utils/frames.js';
+import Game from './game.js';
 
 export default class Bomb {
   static image;
@@ -50,16 +51,36 @@ export default class Bomb {
         this.frame = 0;
       }
     }
+
+    if (this.isColliding(Game.enemy)) {
+      console.log('boommm');
+
+    }
+
+    Game.bombs.forEach(bomb => {
+      if (bomb.x < - bomb.width) {
+        Game.bombs = Game.bombs.filter(item => item != bomb)
+      }
+    })
   }
 
   drawn() {
-    stroke('red');
-    noFill();
-    rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    // stroke('red');
+    // noFill();
+    // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
     image(Bomb.image, this.x, this.y,
       this.width * this.scale, this.height * this.scale,
       this.frames[this.frame].x, this.frames[this.frame].y,
       this.width, this.height);
+  }
+
+  isColliding(enemy) {
+    const collision = collideRectRect(
+      this.x, this.y, this.width, this.height,
+      enemy.x, enemy.y, enemy.width, enemy.height
+    )
+
+    return collision;
   }
 }

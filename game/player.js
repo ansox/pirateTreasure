@@ -19,6 +19,7 @@ export default class Player {
     this.maxFramesJump = 4;
     this.yInitial = this.y;
     this.isJump = false;
+    this.bombLimit = 2;
 
     this.gravity = 3;
     this.jumpSpeed = 0;
@@ -73,15 +74,18 @@ export default class Player {
   }
 
   bomb() {
-    const bomb = new Bomb(this.x);
-    Game.bombs.push(bomb);
-    console.log('bomb');
+    if (!this.isJump) {
+      if (Game.bombs.length < this.bombLimit) {
+        const bomb = new Bomb(this.x);
+        Game.bombs.push(bomb);
+      }
+    }
   }
 
   drawn() {
-    stroke('red');
-    noFill();
-    rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    // stroke('red');
+    // noFill();
+    // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
 
     if (!this.isJump) {
       image(Player.image, this.x, this.y, this.width * this.scale,
