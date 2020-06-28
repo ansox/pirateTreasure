@@ -100,6 +100,13 @@ export default class Player {
         this.state = Player.STATE_RUN;
       }
     }
+
+    for (let coin of Game.coins) {
+      if (this.isColliding(coin)) {
+        this.points += 1;
+        Game.coins = Game.coins.filter(item => item != coin);
+      }
+    }
   }
 
   jump() {

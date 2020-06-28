@@ -6,11 +6,13 @@ import EnemySprites from './enemySprites.js';
 import UI from './ui.js';
 import GameOver from './gameover.js';
 import StartGame from './startGame.js';
+import Coin from './coin.js';
 
 export default class Game {
   static bombs = [];
   static enemy;
   static player;
+  static coins = [];
 
   static STATE_START = 'start';
   static STATE_PLAYING = 'playing';
@@ -35,6 +37,7 @@ export default class Game {
     UI.preload();
     GameOver.preload();
     StartGame.preload();
+    Coin.preload();
   }
 
   setup() {
@@ -100,6 +103,16 @@ export default class Game {
       Game.player.tick();
       Game.player.drawn();
 
+      if (random(101) <= 1.3) {
+        const coin = new Coin(width - 16, random(height - 100, height - 250));
+        Game.coins.push(coin);
+      }
+
+      Game.coins.forEach(coin => {
+        coin.tick();
+        coin.drawn();
+      })
+
       Game.enemy.tick();
       Game.enemy.drawn();
 
@@ -109,11 +122,12 @@ export default class Game {
       })
 
       if (Game.enemy.x < - Game.enemy.width) {
-        Game.player.points += 10;
+        // Game.player.points += 10;
         Game.enemy = this.getEnemy();
         Game.enemy.x = width + Game.enemy.width;
         Game.enemy.speed = parseInt(random(10, 20))
       }
+
 
       this.ui.tick();
       this.ui.draw();
