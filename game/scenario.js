@@ -16,23 +16,37 @@ export default class Scenario {
 
   static preload() {
     Scenario.layers.push({
-      image: loadImage('./game/imgs/forest01.png'),
+      image: loadImage('./game/imgs/back01.png'),
+      x1: 0,
+      x2: width,
+      speed: 2
+    });
+    Scenario.layers.push({
+      image: loadImage('./game/imgs/back04.png'),
       x1: 0,
       x2: width,
       speed: 1
     });
     Scenario.layers.push({
-      image: loadImage('./game/imgs/forest02.png'),
+      image: loadImage('./game/imgs/back02.png'),
       x1: 0,
       x2: width,
       speed: 2
     });
+    Scenario.layers.push({
+      image: loadImage('./game/imgs/back03.png'),
+      x1: 0,
+      x2: width,
+      speed: 2
+    });
+
     Scenario.layers.push({
       image: loadImage('./game/imgs/forest03.png'),
       x1: 0,
       x2: width,
       speed: 3
     });
+
     Scenario.layers.push({
       image: loadImage('./game/imgs/forest04.png'),
       x1: 0,
