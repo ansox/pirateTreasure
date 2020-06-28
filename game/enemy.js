@@ -56,7 +56,7 @@ export default class Enemy {
       this.x -= this.speed;
     } else if (this.state === Enemy.STATE_HIT) {
       if (this.animation.isEnded('hit')) {
-        this.x = width + this.width;
+        this.x = 0 - width;
         this.animation.restart('hit');
         this.state = Enemy.STATE_RUN;
       }

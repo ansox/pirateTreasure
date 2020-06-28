@@ -3,10 +3,12 @@ import Player from './player.js';
 import Enemy from './enemy.js';
 import Bomb from './bomb.js';
 import EnemySprites from './enemySprites.js';
+import UI from './ui.js';
 
 export default class Game {
   static bombs = [];
   static enemy;
+  static player;
 
   constructor() {
   }
@@ -24,23 +26,32 @@ export default class Game {
     Scenario.preload();
     Player.preload();
     Bomb.preload();
+    UI.preload();
   }
 
   setup() {
     createCanvas(windowWidth, windowHeight);
     this.scenario = new Scenario(2);
-    this.player = new Player();
-    Game.enemy = new Enemy(this.enemyList.list[3], 6);
+    Game.player = new Player();
+
+
+    this.enemies = this.enemyList.list.map(enemyData => {
+      return new Enemy(enemyData, 5)
+    });
+
+    Game.enemy = this.enemies[parseInt(random(4))];
+
+    this.ui = new UI();
     collideDebug(true);
   }
 
   keyPressed(key) {
     if (key === ' ') {
-      this.player.jump();
+      Game.player.jump();
     }
 
     if (key === 'z' || key === 'Z') {
-      this.player.bomb();
+      Game.player.bomb();
     }
   }
 
@@ -48,8 +59,8 @@ export default class Game {
     this.scenario.tick();
     this.scenario.drawn();
 
-    this.player.tick();
-    this.player.drawn();
+    Game.player.tick();
+    Game.player.drawn();
 
     Game.enemy.tick();
     Game.enemy.drawn();
@@ -60,7 +71,16 @@ export default class Game {
     })
 
     if (Game.enemy.x < - Game.enemy.width) {
+      Game.enemy = this.enemies[parseInt(random(4))];
       Game.enemy.x = width + Game.enemy.width;
+      Game.enemy.speed = parseInt(random(5, 15))
+    }
+
+    this.ui.tick();
+    this.ui.draw();
+
+    if (Game.player.lifes <= 0) {
+      noLoop();
     }
   }
 }

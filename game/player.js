@@ -33,6 +33,8 @@ export default class Player {
     this.jumpSpeed = 0;
     this.jumpHeight = -35;
 
+    this.lifes = 3;
+
     this.animation = new Animation();
     this.animation.add('run', Player.image,
       this.width, this.height,
@@ -57,16 +59,19 @@ export default class Player {
   }
 
   tick() {
-    this.y = this.y + this.jumpSpeed;
-    this.jumpSpeed += this.gravity;
+    if (this.state === Player.STATE_RUN) {
+      this.y = this.y + this.jumpSpeed;
+      this.jumpSpeed += this.gravity;
 
-    if (this.y > this.yInitial) {
-      this.y = this.yInitial;
-      this.isJump = false;
-    }
+      if (this.y > this.yInitial) {
+        this.y = this.yInitial;
+        this.isJump = false;
+      }
 
-    if (this.isCollidingWithEnemy()) {
-      this.state = Player.STATE_HIT;
+      if (this.isCollidingWithEnemy()) {
+        this.state = Player.STATE_HIT;
+        this.lifes--;
+      }
     }
 
     if (this.state === Player.STATE_HIT) {
