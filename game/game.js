@@ -73,7 +73,7 @@ export default class Game {
     if (Game.enemy.x < - Game.enemy.width) {
       Game.enemy = this.getEnemy();
       Game.enemy.x = width + Game.enemy.width;
-      Game.enemy.speed = parseInt(random(5, 15))
+      Game.enemy.speed = parseInt(random(10, 20))
     }
 
     this.ui.tick();

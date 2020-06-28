@@ -17,6 +17,13 @@ export default class Enemy {
     this.y = height - (this.height * this.scale) - 30;
     this.speed = speed;
 
+    this.mask = {
+      marginX: enemyData.mask.marginX,
+      marginY: enemyData.mask.marginY,
+      width: enemyData.mask.width,
+      height: enemyData.mask.height
+    }
+
     this.state = Enemy.STATE_RUN;
 
     this.maxFrames = enemyData.maxFrames;
@@ -69,7 +76,7 @@ export default class Enemy {
     }
 
     for (let bomb of Game.bombs) {
-      if (this.isColliding(bomb)) {
+      if (bomb.state === Bomb.STATE_BOMB && this.isColliding(bomb)) {
         if (bomb.grounded) {
           this.hit(Enemy.STATE_ATACK);
           bomb.state = this.eatAtack ? Bomb.STATE_EAT : Bomb.STATE_ATACK;
@@ -82,10 +89,12 @@ export default class Enemy {
     }
   }
 
-  isColliding(bomb) {
+  isColliding(entity) {
     const collision = collideRectRect(
-      this.x, this.y, this.width, this.height,
-      bomb.x, bomb.y, bomb.width, bomb.height
+      this.x + this.mask.marginX, this.y + this.mask.marginY,
+      this.mask.width * this.scale, this.mask.height * this.scale,
+      entity.x + entity.mask.marginX, entity.y + entity.mask.marginY,
+      entity.mask.width * this.scale, entity.mask.height * this.scale
     )
 
     return collision;
@@ -94,7 +103,7 @@ export default class Enemy {
   drawn() {
     // stroke('red');
     // noFill();
-    // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    // rect(this.x + this.mask.marginX, this.y + this.mask.marginY, this.mask.width * this.scale, this.mask.height * this.scale);
 
     if (this.state === Enemy.STATE_RUN) {
       this.animation.play('run', this.x, this.y, this.scale);

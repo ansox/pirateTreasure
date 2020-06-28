@@ -29,6 +29,13 @@ export default class Bomb {
     this.gravity = 2;
     this.forceSpeed = -35;
 
+    this.mask = {
+      marginX: 55,
+      marginY: 85,
+      width: 45,
+      height: 45
+    }
+
     this.grounded = 0;
 
     this.state = Bomb.STATE_BOMB;
@@ -100,7 +107,7 @@ export default class Bomb {
   drawn() {
     // stroke('red');
     // noFill();
-    // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    // rect(this.x + this.mask.marginX, this.y + this.mask.marginY, this.mask.width * this.scale, this.mask.height * this.scale);
 
     if (this.state === Bomb.STATE_BOMB) {
       this.animation.play('bomb', this.x, this.y, this.scale);

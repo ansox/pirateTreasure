@@ -21,7 +21,14 @@ export default class Player {
     this.maxFramesJump = 4;
     this.frameSpeedJump = 3;
     this.maxFramesHit = 8;
-    this.frameSpeedHit = 3;
+    this.frameSpeedHit = 4;
+
+    this.mask = {
+      marginX: 10,
+      marginY: 10,
+      width: 48,
+      height: 48
+    }
 
     this.state = Player.STATE_RUN;
 
@@ -32,7 +39,7 @@ export default class Player {
     this.gravity = 3;
     this.jumpSpeed = 0;
     this.jumpHeight = -35;
-    this.doubleJumpHeight = -20;
+    this.doubleJumpHeight = -25;
     this.jumpCount = 0;
     this.maxJumps = 2;
 
@@ -72,9 +79,17 @@ export default class Player {
         this.jumpCount = 0;
       }
 
-      if (this.isCollidingWithEnemy()) {
+      if (this.isColliding(Game.enemy)) {
         this.state = Player.STATE_HIT;
         this.lifes--;
+      }
+
+      for (let bomb of Game.bombs) {
+        if (bomb.grounded && this.isColliding(bomb)) {
+          bomb.state = Bomb.STATE_EXPLOSTION;
+          this.state = Player.STATE_HIT;
+          this.lifes--;
+        }
       }
     }
 
@@ -105,10 +120,12 @@ export default class Player {
     }
   }
 
-  isCollidingWithEnemy() {
+  isColliding(entity) {
     const collision = collideRectRect(
-      this.x, this.y, this.width, this.height,
-      Game.enemy.x, Game.enemy.y, Game.enemy.width, Game.enemy.height
+      this.x + this.mask.marginX, this.y + this.mask.marginY,
+      this.mask.width * this.scale, this.mask.height * this.scale,
+      entity.x + entity.mask.marginX, entity.y + entity.mask.marginY,
+      entity.mask.width * this.scale, entity.mask.height * this.scale
     )
 
     return collision;
@@ -117,7 +134,7 @@ export default class Player {
   drawn() {
     // stroke('red');
     // noFill();
-    // rect(this.x, this.y, this.width * this.scale, this.height * this.scale);
+    // rect(this.x + this.mask.marginX, this.y + this.mask.marginY, this.mask.width * this.scale, this.mask.height * this.scale);
 
     if (this.state === Player.STATE_RUN) {
       if (this.isJump) {
