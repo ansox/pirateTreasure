@@ -5,12 +5,14 @@ import Bomb from './bomb.js';
 import EnemySprites from './enemySprites.js';
 import UI from './ui.js';
 import GameOver from './gameover.js';
+import StartGame from './startGame.js';
 
 export default class Game {
   static bombs = [];
   static enemy;
   static player;
 
+  static STATE_START = 'start';
   static STATE_PLAYING = 'playing';
   static STATE_GAMEOVER = 'game_over';
 
@@ -32,17 +34,21 @@ export default class Game {
     Bomb.preload();
     UI.preload();
     GameOver.preload();
+    StartGame.preload();
   }
 
   setup() {
     createCanvas(windowWidth, windowHeight);
 
-    this.startGame();
+    this.start();
+    this.state = Game.STATE_START;
+
     this.scenario = new Scenario(2);
   }
 
-  startGame() {
+  start() {
     Game.player = new Player();
+    this.startGame = new StartGame();
     this.gameOver = new GameOver();
 
     this.enemies = this.enemyList.list.map(enemyData => {
@@ -52,8 +58,6 @@ export default class Game {
     Game.enemy = this.getEnemy();
 
     this.ui = new UI();
-
-    this.state = Game.STATE_PLAYING;
 
     this.bombs = [];
   }
@@ -72,9 +76,17 @@ export default class Game {
     if (this.state === Game.STATE_GAMEOVER) {
       if (key === ' ') {
         clear();
-        this.startGame();
+        this.start();
+        this.state = Game.STATE_PLAYING;
 
-        // this.state = Game.STATE_PLAYING;
+      }
+    }
+
+    if (this.state === Game.STATE_START) {
+      if (key === ' ') {
+        clear();
+        this.start();
+        this.state = Game.STATE_PLAYING;
       }
     }
 
@@ -116,6 +128,14 @@ export default class Game {
 
       this.gameOver.tick();
       this.gameOver.drawn();
+    }
+
+    if (this.state === Game.STATE_START) {
+      this.scenario.tick();
+      this.scenario.drawn();
+
+      this.startGame.tick();
+      this.startGame.draw();
     }
   }
 
