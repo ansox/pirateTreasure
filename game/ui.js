@@ -1,4 +1,5 @@
 import Game from "./game.js";
+import GameOver from "./gameover.js";
 
 export default class UI {
   static healthBar;
@@ -24,6 +25,19 @@ export default class UI {
   }
 
   draw() {
+    this._life();
+    this._points();
+  }
+
+  _points() {
+    textFont(GameOver.font);
+    textSize(20);
+    textAlign(CENTER);
+    fill('#000')
+    text(`Points: ${Game.player.points}`, width - 200, 45)
+  }
+
+  _life() {
     image(UI.healthBar, 0, 0, this.barWidth * this.scale, this.barHeight * this.scale);
 
     let col = 40;

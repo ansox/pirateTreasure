@@ -22,6 +22,7 @@ export default class Player {
     this.frameSpeedJump = 3;
     this.maxFramesHit = 8;
     this.frameSpeedHit = 4;
+    this.points = 0;
 
     this.mask = {
       marginX: 10,

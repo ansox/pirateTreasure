@@ -1,3 +1,5 @@
+import Game from "./game.js";
+
 export default class GameOver {
   static image;
   static font;
@@ -30,10 +32,10 @@ export default class GameOver {
     image(GameOver.image, this.x, this.y, this.width, this.height);
 
     textFont(GameOver.font);
-    textSize(20);
+    textSize(25);
     textAlign(CENTER);
     fill('#41424c')
-    text('Points: ', width / 2 - 50, height / 2)
+    text(`Points: ${Game.player.points}`, width * 0.50, (height / 2) + 20)
     if (this.showText) {
       fill('#000')
       text('Press "Space" to restart', width / 2, (height / 2) + 200)

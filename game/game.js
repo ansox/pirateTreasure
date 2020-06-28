@@ -39,7 +39,6 @@ export default class Game {
 
     this.startGame();
     this.scenario = new Scenario(2);
-
   }
 
   startGame() {
@@ -55,6 +54,8 @@ export default class Game {
     this.ui = new UI();
 
     this.state = Game.STATE_PLAYING;
+
+    this.bombs = [];
   }
 
   keyPressed(key) {
@@ -96,6 +97,7 @@ export default class Game {
       })
 
       if (Game.enemy.x < - Game.enemy.width) {
+        Game.player.points += 10;
         Game.enemy = this.getEnemy();
         Game.enemy.x = width + Game.enemy.width;
         Game.enemy.speed = parseInt(random(10, 20))
