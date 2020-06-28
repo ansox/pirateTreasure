@@ -28,6 +28,7 @@ export default class Enemy {
     this.maxFramesAtack = enemyData.maxFramesAtack;
     this.frameSpeedAtack = enemyData.frameSpeedAtack;
     this.colFramesAtack = enemyData.colFramesAtack;
+    this.eatAtack = enemyData.eatAtack;
 
     this.animation = new Animation();
     this.animation.add(
@@ -47,8 +48,8 @@ export default class Enemy {
     )
   }
 
-  hit() {
-    this.state = Enemy.STATE_HIT;
+  hit(state) {
+    this.state = state;
   }
 
   tick() {
@@ -69,8 +70,14 @@ export default class Enemy {
 
     for (let bomb of Game.bombs) {
       if (this.isColliding(bomb)) {
-        this.hit();
-        bomb.state = Bomb.STATE_EXPLOSTION;
+        if (bomb.grounded) {
+          this.hit(Enemy.STATE_ATACK);
+          bomb.state = this.eatAtack ? Bomb.STATE_EAT : Bomb.STATE_ATACK;
+        }
+        else {
+          this.hit(Enemy.STATE_HIT);
+          bomb.state = Bomb.STATE_EXPLOSTION;
+        }
       }
     }
   }

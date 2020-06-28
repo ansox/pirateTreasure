@@ -8,6 +8,8 @@ export default class Bomb {
   static STATE_BOMB = 'bomb';
   static STATE_EXPLOSTION = 'explosion';
   static STATE_DESTROYED = 'destroyed';
+  static STATE_EAT = 'eat';
+  static STATE_ATACK = 'atack';
 
   constructor(x) {
     this.width = 96;
@@ -27,7 +29,11 @@ export default class Bomb {
     this.gravity = 2;
     this.forceSpeed = -35;
 
+    this.grounded = 0;
+
     this.state = Bomb.STATE_BOMB;
+
+    this.countEat = 0;
 
     this.animation = new Animation();
     this.animation.add(
@@ -55,10 +61,10 @@ export default class Bomb {
       if (this.y > this.initalY) {
         this.y = this.initalY;
         this.distance = -4;
+        this.grounded = true;
       }
 
       this.x += this.distance;
-
 
       Game.bombs.forEach(bomb => {
         if (bomb.x < - bomb.width) {
@@ -67,10 +73,28 @@ export default class Bomb {
       });
     }
 
-    if (this.animation.isEnded('explosion')) {
-      this.state = Bomb.STATE_DESTROYED;
-      Game.bombs = Game.bombs.filter(item => item != this)
+    if (this.state === Bomb.STATE_EAT) {
+      this.countEat++;
+      this.x += this.countEat;
+      this.y -= this.countEat;
+
+      if (this.countEat === 5) {
+        this.destroyBomb();
+      }
     }
+
+    if (this.state === Bomb.STATE_ATACK) {
+      this.x -= 20
+    }
+
+    if (this.animation.isEnded('explosion')) {
+      this.destroyBomb();
+    }
+  }
+
+  destroyBomb() {
+    this.state = Bomb.STATE_DESTROYED;
+    Game.bombs = Game.bombs.filter(item => item != this)
   }
 
   drawn() {
@@ -83,7 +107,12 @@ export default class Bomb {
     }
     else if (this.state === Bomb.STATE_EXPLOSTION) {
       this.animation.play('explosion', this.x, this.y, this.scale);
+    } else if (this.state === Bomb.STATE_EAT) {
+      this.animation.play('bomb', this.x, this.y, this.scale);
+    } else if (this.state === Bomb.STATE_ATACK) {
+      this.animation.play('bomb', this.x, this.y, this.scale);
     }
+
 
   }
 }

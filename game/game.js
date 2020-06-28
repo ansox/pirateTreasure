@@ -39,7 +39,7 @@ export default class Game {
       return new Enemy(enemyData, 5)
     });
 
-    Game.enemy = this.enemies[parseInt(random(4))];
+    Game.enemy = this.getEnemy();
 
     this.ui = new UI();
     collideDebug(true);
@@ -71,7 +71,7 @@ export default class Game {
     })
 
     if (Game.enemy.x < - Game.enemy.width) {
-      Game.enemy = this.enemies[parseInt(random(4))];
+      Game.enemy = this.getEnemy();
       Game.enemy.x = width + Game.enemy.width;
       Game.enemy.speed = parseInt(random(5, 15))
     }
@@ -82,5 +82,9 @@ export default class Game {
     if (Game.player.lifes <= 0) {
       noLoop();
     }
+  }
+
+  getEnemy() {
+    return this.enemies[parseInt(random(4))];
   }
 }

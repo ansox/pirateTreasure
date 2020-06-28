@@ -21,7 +21,7 @@ export default class Player {
     this.maxFramesJump = 4;
     this.frameSpeedJump = 3;
     this.maxFramesHit = 8;
-    this.frameSpeedHit = 2;
+    this.frameSpeedHit = 3;
 
     this.state = Player.STATE_RUN;
 
@@ -32,6 +32,9 @@ export default class Player {
     this.gravity = 3;
     this.jumpSpeed = 0;
     this.jumpHeight = -35;
+    this.doubleJumpHeight = -20;
+    this.jumpCount = 0;
+    this.maxJumps = 2;
 
     this.lifes = 3;
 
@@ -66,6 +69,7 @@ export default class Player {
       if (this.y > this.yInitial) {
         this.y = this.yInitial;
         this.isJump = false;
+        this.jumpCount = 0;
       }
 
       if (this.isCollidingWithEnemy()) {
@@ -83,8 +87,13 @@ export default class Player {
   }
 
   jump() {
-    this.jumpSpeed = this.jumpHeight;
-    this.isJump = true;
+    if (this.jumpCount < this.maxJumps) {
+      this.jumpCount++;
+      this.jumpSpeed = this.jumpCount === this.maxJumps ?
+        this.doubleJumpHeight :
+        this.jumpHeight;
+      this.isJump = true;
+    }
   }
 
   bomb() {
