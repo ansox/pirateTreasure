@@ -74,6 +74,8 @@ export default class Game {
     Game.bombs = [];
     Game.coins = [];
     Game.particles = [];
+
+    Game.audioCenter.loop('music');
   }
 
   keyPressed(key) {
@@ -88,11 +90,11 @@ export default class Game {
     }
 
     if (this.state === Game.STATE_GAMEOVER) {
-      if (key === ' ') {
+      if (key === ' ' && this.gameOver.canRestart) {
         clear();
         this.start();
         this.state = Game.STATE_PLAYING;
-
+        this.gameOver.end();
       }
     }
 
@@ -101,7 +103,6 @@ export default class Game {
         clear();
         this.start();
         this.state = Game.STATE_PLAYING;
-        Game.audioCenter.loop('music');
       }
     }
 
@@ -155,6 +156,7 @@ export default class Game {
 
       if (Game.player.lifes <= 0) {
         this.state = Game.STATE_GAMEOVER;
+        Game.audioCenter.stop('music');
       }
 
       Game.postShake();

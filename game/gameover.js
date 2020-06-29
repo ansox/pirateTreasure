@@ -13,6 +13,10 @@ export default class GameOver {
     this.countTick = 0;
     this.maxTick = 15;
     this.showText = true;
+
+    this.countToRestart = 0;
+    this.maxCountToRestart = 30;
+    this.canRestart = false;
   }
 
   static preload() {
@@ -26,6 +30,19 @@ export default class GameOver {
       this.countTick = 0;
       this.showText = !this.showText;
     }
+
+
+    if (this.canRestart === false) {
+      this.countToRestart++;
+      if (this.countToRestart > this.maxCountToRestart) {
+        this.countToRestart = 0
+        this.canRestart = true;
+      }
+    }
+  }
+
+  end() {
+    this.canRestart = false;
   }
 
   drawn() {
