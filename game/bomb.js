@@ -63,6 +63,7 @@ export default class Bomb {
   explode() {
     this.state = Bomb.STATE_EXPLOSTION;
     Game.audioCenter.play('explosion');
+    Game.startShake();
   }
 
   tick() {

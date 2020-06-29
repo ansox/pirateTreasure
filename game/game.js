@@ -21,8 +21,11 @@ export default class Game {
   static STATE_START = 'start';
   static STATE_PLAYING = 'playing';
   static STATE_GAMEOVER = 'game_over';
+  static shakeStartTime = -1;
+  static shakeDuration = 200
 
   constructor() {
+
   }
 
   preloadEnemies(enemyList) {
@@ -106,6 +109,8 @@ export default class Game {
 
   drawn() {
     if (this.state === Game.STATE_PLAYING) {
+      Game.preShake();
+
       this.scenario.tick();
       this.scenario.drawn();
 
@@ -151,6 +156,8 @@ export default class Game {
       if (Game.player.lifes <= 0) {
         this.state = Game.STATE_GAMEOVER;
       }
+
+      Game.postShake();
     }
 
     if (this.state === Game.STATE_GAMEOVER) {
@@ -171,6 +178,30 @@ export default class Game {
 
   getEnemy() {
     return this.enemies[parseInt(random(4))];
+  }
+
+  static preShake() {
+    if (Game.shakeStartTime == -1) return;
+    var dt = Date.now() - Game.shakeStartTime;
+    if (dt > Game.shakeDuration) {
+      Game.shakeStartTime = -1;
+      return;
+    }
+    var easingCoef = dt / Game.shakeDuration;
+    var easing = Math.pow(easingCoef - 1, 3) + 1;
+    // ctx.save();
+    var dx = easing * (Math.cos(dt * 0.1) + Math.cos(dt * 0.3115)) * 10;
+    var dy = easing * (Math.sin(dt * 0.05) + Math.sin(dt * 0.057113)) * 10;
+    translate(dx, dy);
+  }
+
+  static postShake() {
+    if (Game.shakeStartTime == -1) return;
+    // ctx.restore();
+  }
+
+  static startShake() {
+    Game.shakeStartTime = Date.now();
   }
 
   static generateParticles(amount, x, y) {
