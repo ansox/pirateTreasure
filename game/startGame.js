@@ -6,8 +6,8 @@ export default class StartGame {
   static chest;
 
   constructor() {
-    this.width = 380;
-    this.height = 380;
+    this.width = 350;
+    this.height = 350;
     this.x = (width / 2) - (this.width / 2);
     this.y = 100;
 

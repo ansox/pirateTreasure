@@ -3,7 +3,7 @@
     {
       "id": "enemy01",
       "width": 80,
-      "height": 72,
+      "height": 72.1,
       "maxFrames": 14,
       "frameSpeed": 2,
       "colFrames": 4,
@@ -27,7 +27,7 @@
     {
       "id": "enemy02",
       "width": 68,
-      "height": 46,
+      "height": 46.1,
       "maxFrames": 14,
       "frameSpeed": 4,
       "colFrames": 14,
@@ -51,7 +51,7 @@
     {
       "id": "enemy03",
       "width": 64,
-      "height": 68,
+      "height": 68.1,
       "maxFrames": 12,
       "frameSpeed": 3,
       "colFrames": 4,
@@ -75,7 +75,7 @@
     {
       "id": "enemy04",
       "width": 77,
-      "height": 74,
+      "height": 74.1,
       "maxFrames": 16,
       "frameSpeed": 3,
       "colFrames": 4,

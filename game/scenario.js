@@ -44,14 +44,14 @@ export default class Scenario {
       image: loadImage('./game/imgs/forest03.png'),
       x1: 0,
       x2: width,
-      speed: 3
+      speed: 3.2
     });
 
     Scenario.layers.push({
       image: loadImage('./game/imgs/forest04.png'),
       x1: 0,
       x2: width,
-      speed: 4
+      speed: 4.2
     });
     // Scenario.layers.push(loadImage('./game/imgs/forest05.png'));
 
@@ -62,11 +62,11 @@ export default class Scenario {
       layer.x1 -= layer.speed;
       layer.x2 -= layer.speed;
 
-      if (layer.x1 <= -width) {
+      if (layer.x1 < -width) {
         layer.x1 = width;
       }
 
-      if (layer.x2 <= -width) {
+      if (layer.x2 < -width) {
         layer.x2 = width;
       }
     })

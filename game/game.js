@@ -51,10 +51,10 @@ export default class Game {
   setup() {
     createCanvas(windowWidth, windowHeight);
 
+    this.scenario = new Scenario(4);
     this.start();
-    this.state = Game.STATE_START;
 
-    this.scenario = new Scenario(2);
+    this.state = Game.STATE_START;
   }
 
   start() {

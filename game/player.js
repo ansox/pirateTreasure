@@ -11,7 +11,7 @@ export default class Player {
   static STATE_HIT = 'hit';
 
   constructor() {
-    this.height = 58;
+    this.height = 58.1;
     this.width = 58;
     this.scale = 2;
     this.x = 40;
