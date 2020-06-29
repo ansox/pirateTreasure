@@ -49,7 +49,7 @@ export default class StartGame {
     textFont(GameOver.font);
     if (this.showText) {
       textSize(25);
-      text('Press "Space" to start', width / 2, (height / 2) + 200);
+      text('Aperte "Espaço" para começar', width / 2, (height / 2) + 200);
     }
   }
 }

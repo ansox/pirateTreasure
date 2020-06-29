@@ -52,10 +52,10 @@ export default class GameOver {
     textSize(25);
     textAlign(CENTER);
     fill('#41424c')
-    text(`Points: ${Game.player.points}`, width * 0.50, (height / 2) + 20)
+    text(`Pontos: ${Game.player.points}`, width * 0.50, (height / 2) + 20)
     if (this.showText) {
       fill('#000')
-      text('Press "Space" to restart', width / 2, (height / 2) + 200)
+      text('Aperte "Espaço" para reiniciar', width / 2, (height / 2) + 200)
     }
   }
 }

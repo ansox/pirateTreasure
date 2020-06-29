@@ -27,6 +27,7 @@ export default class UI {
   draw() {
     this._life();
     this._points();
+    this._text();
   }
 
   _points() {
@@ -35,7 +36,7 @@ export default class UI {
     textAlign(CENTER);
     fill('#000')
     stroke('#000');
-    text(`Points: ${Game.player.points}`, width - 200, 45)
+    text(`Pontos: ${Game.player.points}`, width - 200, 45)
   }
 
   _life() {
@@ -53,5 +54,14 @@ export default class UI {
 
       col += colDistance;
     }
+  }
+
+  _text() {
+    textFont(GameOver.font);
+    textSize(12);
+    textAlign(CENTER);
+    fill('#000')
+    stroke('#000');
+    text(`"Espaço": pular / "Z": bomba`, width - 200, height - 5)
   }
 }

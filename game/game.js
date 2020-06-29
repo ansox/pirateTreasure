@@ -9,6 +9,7 @@ import StartGame from './startGame.js';
 import Coin from './coin.js';
 import AudioCenter from './audio-center.js';
 import Particle from './particle.js';
+import Intro from './intro.js';
 
 export default class Game {
   static bombs = [];
@@ -19,8 +20,10 @@ export default class Game {
   static particles = [];
 
   static STATE_START = 'start';
+  static STATE_INTRO = 'intro';
   static STATE_PLAYING = 'playing';
   static STATE_GAMEOVER = 'game_over';
+
   static shakeStartTime = -1;
   static shakeDuration = 200
 
@@ -61,6 +64,7 @@ export default class Game {
     Game.player = new Player();
     this.startGame = new StartGame();
     this.gameOver = new GameOver();
+    this.intro = new Intro();
     Game.audioCenter = new AudioCenter();
 
     this.enemies = this.enemyList.list.map(enemyData => {
@@ -101,6 +105,12 @@ export default class Game {
     if (this.state === Game.STATE_START) {
       if (key === ' ') {
         clear();
+        this.state = Game.STATE_INTRO;
+      }
+    }
+
+    if (this.state === Game.STATE_INTRO) {
+      if (key === ' ' && this.intro.canStart) {
         this.start();
         this.state = Game.STATE_PLAYING;
       }
@@ -176,6 +186,14 @@ export default class Game {
 
       this.startGame.tick();
       this.startGame.draw();
+    }
+
+    if (this.state === Game.STATE_INTRO) {
+      this.scenario.tick();
+      this.scenario.drawn();
+
+      this.intro.tick();
+      this.intro.drawn();
     }
   }
 
