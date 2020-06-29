@@ -34,6 +34,7 @@ export default class UI {
     textSize(20);
     textAlign(CENTER);
     fill('#000')
+    stroke('#000');
     text(`Points: ${Game.player.points}`, width - 200, 45)
   }
 

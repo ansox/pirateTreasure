@@ -8,6 +8,7 @@ import GameOver from './gameover.js';
 import StartGame from './startGame.js';
 import Coin from './coin.js';
 import AudioCenter from './audio-center.js';
+import Particle from './particle.js';
 
 export default class Game {
   static bombs = [];
@@ -15,6 +16,7 @@ export default class Game {
   static player;
   static coins = [];
   static audioCenter;
+  static particles = [];
 
   static STATE_START = 'start';
   static STATE_PLAYING = 'playing';
@@ -68,6 +70,7 @@ export default class Game {
 
     Game.bombs = [];
     Game.coins = [];
+    Game.particles = [];
   }
 
   keyPressed(key) {
@@ -134,6 +137,13 @@ export default class Game {
         Game.enemy.speed = parseInt(random(10, 20))
       }
 
+      Game.particles.forEach(particle => {
+        if (particle) {
+          particle.tick();
+          particle.drawn();
+        }
+      })
+
 
       this.ui.tick();
       this.ui.draw();
@@ -161,5 +171,11 @@ export default class Game {
 
   getEnemy() {
     return this.enemies[parseInt(random(4))];
+  }
+
+  static generateParticles(amount, x, y) {
+    for (let i = 0; i < amount; i++) {
+      Game.particles.push(new Particle(x, y, 1, 1));
+    }
   }
 }
