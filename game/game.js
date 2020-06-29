@@ -7,12 +7,14 @@ import UI from './ui.js';
 import GameOver from './gameover.js';
 import StartGame from './startGame.js';
 import Coin from './coin.js';
+import AudioCenter from './audio-center.js';
 
 export default class Game {
   static bombs = [];
   static enemy;
   static player;
   static coins = [];
+  static audioCenter;
 
   static STATE_START = 'start';
   static STATE_PLAYING = 'playing';
@@ -38,6 +40,7 @@ export default class Game {
     GameOver.preload();
     StartGame.preload();
     Coin.preload();
+    AudioCenter.preload();
   }
 
   setup() {
@@ -53,6 +56,7 @@ export default class Game {
     Game.player = new Player();
     this.startGame = new StartGame();
     this.gameOver = new GameOver();
+    Game.audioCenter = new AudioCenter();
 
     this.enemies = this.enemyList.list.map(enemyData => {
       return new Enemy(enemyData, 5)
@@ -62,7 +66,8 @@ export default class Game {
 
     this.ui = new UI();
 
-    this.bombs = [];
+    Game.bombs = [];
+    Game.coins = [];
   }
 
   keyPressed(key) {
@@ -90,6 +95,7 @@ export default class Game {
         clear();
         this.start();
         this.state = Game.STATE_PLAYING;
+        Game.audioCenter.loop('music');
       }
     }
 

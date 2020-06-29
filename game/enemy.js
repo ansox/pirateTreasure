@@ -78,12 +78,13 @@ export default class Enemy {
     for (let bomb of Game.bombs) {
       if (bomb.state === Bomb.STATE_BOMB && this.isColliding(bomb)) {
         if (bomb.grounded) {
+          Game.audioCenter.play('atack');
           this.hit(Enemy.STATE_ATACK);
           bomb.state = this.eatAtack ? Bomb.STATE_EAT : Bomb.STATE_ATACK;
         }
         else {
           this.hit(Enemy.STATE_HIT);
-          bomb.state = Bomb.STATE_EXPLOSTION;
+          bomb.explode();
         }
       }
     }

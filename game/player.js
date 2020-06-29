@@ -37,9 +37,9 @@ export default class Player {
     this.isJump = false;
     this.bombLimit = 2;
 
-    this.gravity = 3;
+    this.gravity = 2;
     this.jumpSpeed = 0;
-    this.jumpHeight = -35;
+    this.jumpHeight = -30;
     this.doubleJumpHeight = -25;
     this.jumpCount = 0;
     this.maxJumps = 2;
@@ -87,7 +87,7 @@ export default class Player {
 
       for (let bomb of Game.bombs) {
         if (bomb.grounded && this.isColliding(bomb)) {
-          bomb.state = Bomb.STATE_EXPLOSTION;
+          bomb.explode();
           this.state = Player.STATE_HIT;
           this.lifes--;
         }
@@ -104,6 +104,7 @@ export default class Player {
     for (let coin of Game.coins) {
       if (this.isColliding(coin)) {
         this.points += 1;
+        Game.audioCenter.play('coin');
         Game.coins = Game.coins.filter(item => item != coin);
       }
     }
@@ -111,6 +112,7 @@ export default class Player {
 
   jump() {
     if (this.jumpCount < this.maxJumps) {
+      Game.audioCenter.play('jump');
       this.jumpCount++;
       this.jumpSpeed = this.jumpCount === this.maxJumps ?
         this.doubleJumpHeight :
@@ -122,6 +124,7 @@ export default class Player {
   bomb() {
     if (!this.isJump) {
       if (Game.bombs.length < this.bombLimit) {
+        Game.audioCenter.rate('bomb', 2);
         const bomb = new Bomb(this.x);
         Game.bombs.push(bomb);
       }

@@ -60,6 +60,11 @@ export default class Bomb {
     Bomb.imageExplosion = loadImage('./game/imgs/explosion.png');
   }
 
+  explode() {
+    this.state = Bomb.STATE_EXPLOSTION;
+    Game.audioCenter.play('explosion');
+  }
+
   tick() {
     if (this.state === Bomb.STATE_BOMB) {
       this.y = this.y + this.forceSpeed;
