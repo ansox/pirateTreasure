@@ -82,6 +82,7 @@ export default class Player {
 
       if (this.isColliding(Game.enemy)) {
         this.state = Player.STATE_HIT;
+        Game.audioCenter.play('hurt');
         this.lifes--;
       }
 

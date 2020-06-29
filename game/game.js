@@ -156,6 +156,7 @@ export default class Game {
 
       if (Game.player.lifes <= 0) {
         this.state = Game.STATE_GAMEOVER;
+        Game.audioCenter.play('die');
         Game.audioCenter.stop('music');
       }
 

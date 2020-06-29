@@ -5,6 +5,8 @@ export default class AudioCenter {
   static explosion;
   static bomb;
   static atack;
+  static die;
+  static hurt;
 
   constructor() {
     this.audio = {};
@@ -14,6 +16,8 @@ export default class AudioCenter {
     this.audio['explosion'] = AudioCenter.explosion;
     this.audio['bomb'] = AudioCenter.bomb;
     this.audio['atack'] = AudioCenter.atack;
+    this.audio['die'] = AudioCenter.die;
+    this.audio['hurt'] = AudioCenter.hurt;
   }
 
   static preload() {
@@ -23,6 +27,8 @@ export default class AudioCenter {
     AudioCenter.explosion = loadSound('./game/audio/explosion.wav');
     AudioCenter.bomb = loadSound('./game/audio/bomb.ogg');
     AudioCenter.atack = loadSound('./game/audio/atack.ogg');
+    AudioCenter.die = loadSound('./game/audio/die.wav');
+    AudioCenter.hurt = loadSound('./game/audio/hurt.wav');
   }
 
   loop(id) {
