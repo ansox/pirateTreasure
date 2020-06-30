@@ -105,11 +105,15 @@ export default class Player {
     for (let coin of Game.coins) {
       if (this.isColliding(coin)) {
         Game.generateParticles(100, coin.x, coin.y);
-        this.points += 1;
+        this.addPoints(1);
         Game.audioCenter.play('coin');
         Game.coins = Game.coins.filter(item => item != coin);
       }
     }
+  }
+
+  addPoints(points) {
+    this.points += points;
   }
 
   jump() {
@@ -126,7 +130,7 @@ export default class Player {
   bomb() {
     if (!this.isJump) {
       if (Game.bombs.length < this.bombLimit) {
-        Game.audioCenter.rate('bomb', 2);
+        Game.audioCenter.play('bomb', 0.5, 2);
         const bomb = new Bomb(this.x);
         Game.bombs.push(bomb);
       }

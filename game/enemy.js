@@ -84,6 +84,7 @@ export default class Enemy {
         }
         else {
           this.hit(Enemy.STATE_HIT);
+          Game.player.addPoints(10);
           bomb.explode();
         }
       }

@@ -36,18 +36,13 @@ export default class AudioCenter {
     this.audio[id].loop();
   }
 
-  play(id) {
-    this.audio[id].setVolume(1);
-
+  play(id, volume = 1, speed = 1) {
+    this.audio[id].rate(speed)
+    this.audio[id].setVolume(volume);
     this.audio[id].play();
   }
 
   stop(id) {
     this.audio[id].stop();
-  }
-
-  rate(id, speed) {
-    this.audio[id].rate(speed)
-    this.audio[id].play()
   }
 }
