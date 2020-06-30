@@ -61,6 +61,10 @@ export default class Game {
   }
 
   start() {
+    this.enemySpeed = 15;
+    this.chancesToAtack = 20;
+    this.nextLevel = 100;
+
     Game.player = new Player();
     this.startGame = new StartGame();
     this.gameOver = new GameOver();
@@ -68,7 +72,7 @@ export default class Game {
     Game.audioCenter = new AudioCenter();
 
     this.enemies = this.enemyList.list.map(enemyData => {
-      return new Enemy(enemyData, 5)
+      return new Enemy(enemyData, 10, 20);
     });
 
     Game.enemy = this.getEnemy();
@@ -147,10 +151,10 @@ export default class Game {
       })
 
       if (Game.enemy.x < - Game.enemy.width) {
-        // Game.player.points += 10;
         Game.enemy = this.getEnemy();
         Game.enemy.x = width + Game.enemy.width;
-        Game.enemy.speed = parseInt(random(10, 20))
+        Game.enemy.speed = parseInt(random(this.enemySpeed, this.enemySpeed + 5));
+        Game.enemy.chancesToAtack = this.chancesToAtack;
       }
 
       Game.particles.forEach(particle => {
@@ -159,7 +163,6 @@ export default class Game {
           particle.drawn();
         }
       })
-
 
       this.ui.tick();
       this.ui.draw();
@@ -170,7 +173,11 @@ export default class Game {
         Game.audioCenter.stop('music');
       }
 
-      Game.postShake();
+      if (Game.player.points > this.nextLevel) {
+        this.nextLevel += 100;
+        this.enemySpeed += 2;
+        this.chancesToAtack += 2;
+      }
     }
 
     if (this.state === Game.STATE_GAMEOVER) {

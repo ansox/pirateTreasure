@@ -6,7 +6,7 @@ export default class Intro {
     this.messages = [];
     this.messageIndex = 0;
     this.time = 0;
-    this.maxTime = 5;
+    this.maxTime = 4;
     this.showMessage = true;
     this.countTick = 0;
     this.maxTick = 15;

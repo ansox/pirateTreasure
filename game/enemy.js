@@ -8,7 +8,7 @@ export default class Enemy {
   static STATE_HIT = 'hit';
   static STATE_ATACK = 'atack';
 
-  constructor(enemyData, speed) {
+  constructor(enemyData, speed, chanceToAtack) {
     this.id = enemyData.id;
     this.width = enemyData.width;
     this.height = enemyData.height;
@@ -16,6 +16,7 @@ export default class Enemy {
     this.x = width - this.width - 100;
     this.y = height - (this.height * this.scale) - 30;
     this.speed = speed;
+    this.chanceToAtack = chanceToAtack;
 
     this.mask = {
       marginX: enemyData.mask.marginX,
@@ -77,7 +78,8 @@ export default class Enemy {
 
     for (let bomb of Game.bombs) {
       if (bomb.state === Bomb.STATE_BOMB && this.isColliding(bomb)) {
-        if (bomb.grounded) {
+        const chance = random(101);
+        if (bomb.grounded && chance < this.chanceToAtack) {
           Game.audioCenter.play('atack');
           this.hit(Enemy.STATE_ATACK);
           bomb.state = this.eatAtack ? Bomb.STATE_EAT : Bomb.STATE_ATACK;
