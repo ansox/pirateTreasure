@@ -27,9 +27,9 @@ export default class Intro {
     this.zWidth = 32;
     this.zSpaceHeight = 32;
 
-    this.opacity = 255;
-    this.countOpacity = 0;
-    this.maxOpacity = 1;
+    this.timer = 250;
+    this.countTimer = 0;
+    this.maxTimer = 1;
 
     this.messages.push('A vida de um pirata não é fácil!');
     this.messages.push('')
@@ -96,12 +96,12 @@ export default class Intro {
     }
 
     if (this.state === Intro.STATE_STARTING) {
-      if (this.opacity > 0) {
-        this.countOpacity++;
+      if (this.timer > 0) {
+        this.countTimer++;
 
-        if (this.countOpacity === this.maxOpacity) {
-          this.countOpacity = 0;
-          this.opacity -= 1.2;
+        if (this.countTimer === this.maxTimer) {
+          this.countTimer = 0;
+          this.timer -= 1.2;
         }
       }
       else {
@@ -134,10 +134,10 @@ export default class Intro {
     if (this.state === Intro.STATE_STARTING) {
       textFont(GameOver.font);
       textSize(20);
-      fill(0, 0, 0, this.opacity);
+      // fill(0, 0, 0, this.opacity);
       textAlign(LEFT);
 
-      tint(255, this.opacity);
+      // tint(255, this.opacity);
 
       image(Intro.spaceKey,
         width / 2 - (this.spaceWidth * 3),
@@ -155,7 +155,7 @@ export default class Intro {
         this.zWidth, this.zSpaceHeight)
       text(': Lançar bomba', width / 2 - 50, height / 2 + 55,);
 
-      noTint();
+      // noTint();
     }
 
     Game.player.drawn();

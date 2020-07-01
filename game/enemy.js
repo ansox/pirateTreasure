@@ -117,5 +117,12 @@ export default class Enemy {
       this.animation.play('atack', this.x, this.y, this.scale);
     }
 
+    image(
+      EnemySprites.sprites[this.id].exclamation,
+      this.x + this.mask.marginX + (this.mask.width / 2) + 15, (height - (this.mask.height * 2)) - 80,
+      20 * 2,
+      22 * 2
+    );
+
   }
 }
