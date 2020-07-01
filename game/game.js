@@ -62,9 +62,9 @@ export default class Game {
   }
 
   start() {
-    this.enemySpeed = 15;
-    this.chancesToAtack = 20;
-    this.nextLevel = 50;
+    this.enemySpeed = 10;
+    this.chancesToAtack = 25;
+    this.nextLevel = 100;
 
     Game.player = new Player();
     this.startGame = new StartGame();
@@ -161,6 +161,8 @@ export default class Game {
         Game.enemy.x = width + Game.enemy.width;
         Game.enemy.speed = parseInt(random(this.enemySpeed, this.enemySpeed + 5));
         Game.enemy.chancesToAtack = this.chancesToAtack;
+        Game.enemy.inAlert = false;
+        Game.enemy.ignoreBomb = false;
       }
 
       Game.particles.forEach(particle => {
