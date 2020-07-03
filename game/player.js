@@ -104,10 +104,7 @@ export default class Player {
 
     for (let coin of Game.coins) {
       if (this.isColliding(coin)) {
-        Game.generateParticles(100, coin.x, coin.y);
-        this.addPoints(1);
-        Game.audioCenter.play('coin');
-        Game.coins = Game.coins.filter(item => item != coin);
+        coin.destroy();
       }
     }
   }

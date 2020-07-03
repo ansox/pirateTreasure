@@ -7,6 +7,8 @@ import UI from './ui.js';
 import GameOver from './gameover.js';
 import StartGame from './startGame.js';
 import Coin from './coin.js';
+import Diamond from './diamond.js'
+import Rubi from './rubi.js';
 import AudioCenter from './audio-center.js';
 import Particle from './particle.js';
 import Intro from './intro.js';
@@ -48,6 +50,8 @@ export default class Game {
     GameOver.preload();
     StartGame.preload();
     Coin.preload();
+    Diamond.preload();
+    Rubi.preload();
     AudioCenter.preload();
     Intro.preload();
   }
@@ -58,7 +62,7 @@ export default class Game {
     this.scenario = new Scenario(4);
     this.start();
 
-    this.state = Game.STATE_START;
+    this.state = Game.STATE_PLAYING;
   }
 
   start() {
@@ -246,9 +250,9 @@ export default class Game {
     Game.shakeStartTime = Date.now();
   }
 
-  static generateParticles(amount, x, y) {
+  static generateParticles(amount, x, y, color) {
     for (let i = 0; i < amount; i++) {
-      Game.particles.push(new Particle(x, y, 1, 1));
+      Game.particles.push(new Particle(x, y, 1, 1, color));
     }
   }
 }

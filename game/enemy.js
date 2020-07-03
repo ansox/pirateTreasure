@@ -2,6 +2,8 @@ import Animation from './animation.js';
 import EnemySprites from './enemySprites.js';
 import Game from './game.js';
 import Bomb from './bomb.js';
+import Diamond from './diamond.js';
+import Rubi from './rubi.js';
 
 export default class Enemy {
   static STATE_RUN = 'run';
@@ -111,7 +113,13 @@ export default class Enemy {
         }
         else {
           this.hit(Enemy.STATE_HIT);
-          Game.player.addPoints(10);
+          const chanceToDiamond = random(100);
+          if (chanceToDiamond <= 20) {
+            Game.coins.push(new Diamond(this.x + (this.width / 2), height - 100));
+          }
+          else {
+            Game.coins.push(new Rubi(this.x + (this.width / 2), height - 100));
+          }
           bomb.explode();
         }
       }
