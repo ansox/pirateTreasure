@@ -62,12 +62,12 @@ export default class Game {
     this.scenario = new Scenario(4);
     this.start();
 
-    this.state = Game.STATE_PLAYING;
+    this.state = Game.STATE_START;
   }
 
   start() {
-    this.enemySpeed = 10;
-    this.chancesToAtack = 25;
+    this.enemySpeed = 8;
+    this.chancesToAtack = 30;
     this.nextLevel = 100;
 
     Game.player = new Player();
@@ -186,7 +186,7 @@ export default class Game {
       }
 
       if (Game.player.points > this.nextLevel) {
-        this.nextLevel += 50;
+        this.nextLevel += 100;
         this.enemySpeed += 2;
         this.chancesToAtack += 2;
       }

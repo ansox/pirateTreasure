@@ -37,7 +37,7 @@ export default class Player {
     this.isJump = false;
     this.bombLimit = 2;
 
-    this.gravity = 2;
+    this.gravity = 1.8;
     this.jumpSpeed = 0;
     this.jumpHeight = -30;
     this.doubleJumpHeight = -25;

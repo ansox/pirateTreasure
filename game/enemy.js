@@ -92,7 +92,7 @@ export default class Enemy {
 
       if (!this.ignoreBomb) {
         if (bomb.state === Bomb.STATE_BOMB && bomb.grounded &&
-          this.isVisonColliding(this.visionCollisor, bomb)) {
+          this.x >= width / 2 && this.isVisonColliding(this.visionCollisor, bomb)) {
           const chance = random(100);
 
           if (chance < this.chancesToAtack) {
