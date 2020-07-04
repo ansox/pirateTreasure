@@ -63,6 +63,7 @@ export default class Game {
     this.start();
 
     this.state = Game.STATE_START;
+    frameRate(60);
   }
 
   start() {
@@ -167,6 +168,7 @@ export default class Game {
         Game.enemy.chancesToAtack = this.chancesToAtack;
         Game.enemy.inAlert = false;
         Game.enemy.ignoreBomb = false;
+        Game.enemy.alertTimer = 25;
       }
 
       Game.particles.forEach(particle => {

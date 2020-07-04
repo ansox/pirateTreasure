@@ -60,4 +60,16 @@ export default class Animation {
 
     this.next(animation);
   }
+
+  renderActuaFrame(id, x, y, scale) {
+    const animation = this.animations[id];
+
+    image(
+      animation.spriteSheet,
+      x, y,
+      animation.width * scale, animation.height * scale,
+      animation.frames[animation.frameActual].x, animation.frames[animation.frameActual].y,
+      animation.width, animation.height
+    );
+  }
 }

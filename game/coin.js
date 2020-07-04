@@ -9,7 +9,6 @@ export default class Coin extends Treasure {
 
     this.width = 16;
     this.height = 16;
-    this.speed = 4;
     this.maxFrames = 4;
     this.frameSpeed = 6;
     this.particleColor = 'rgb(217, 170, 122)'

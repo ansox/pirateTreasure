@@ -9,7 +9,7 @@ export default class Treasure {
     this.y = y;
     this.width = 16;
     this.height = 16;
-    this.speed = 4;
+    this.speed = 5;
     this.maxFrames = 4;
     this.frameSpeed = 6;
     this.particleColor = '#fff';

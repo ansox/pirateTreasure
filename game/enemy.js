@@ -9,6 +9,7 @@ export default class Enemy {
   static STATE_RUN = 'run';
   static STATE_HIT = 'hit';
   static STATE_ATACK = 'atack';
+  static STATE_ALERT = 'alert';
 
   constructor(enemyData, speed, chancesToAtack) {
     this.id = enemyData.id;
@@ -48,6 +49,7 @@ export default class Enemy {
     this.frameSpeedAtack = enemyData.frameSpeedAtack;
     this.colFramesAtack = enemyData.colFramesAtack;
     this.eatAtack = enemyData.eatAtack;
+    this.alertTimer = 25;
 
     this.animation = new Animation();
     this.animation.add(
@@ -86,18 +88,25 @@ export default class Enemy {
         this.animation.restart('atack');
         this.state = Enemy.STATE_RUN;
       }
+    } else if (this.state === Enemy.STATE_ALERT) {
+      this.x -= 5;
+      this.alertTimer--;
+
+      if (this.alertTimer <= 0) {
+        this.state = Enemy.STATE_RUN;
+      }
     }
 
     for (let bomb of Game.bombs) {
 
       if (!this.ignoreBomb) {
         if (bomb.state === Bomb.STATE_BOMB && bomb.grounded &&
-          this.x >= width / 2 && this.isVisonColliding(this.visionCollisor, bomb)) {
+          bomb.x >= width / 3 && this.isVisonColliding(this.visionCollisor, bomb)) {
           const chance = random(100);
 
           if (chance < this.chancesToAtack) {
-            this.x -= 5;
             this.inAlert = true;
+            this.state = Enemy.STATE_ALERT;
           }
           else {
             this.ignoreBomb = true;
@@ -161,6 +170,10 @@ export default class Enemy {
       this.animation.play('hit', this.x, this.y, this.scale);
     } else if (this.state === Enemy.STATE_ATACK) {
       this.animation.play('atack', this.x, this.y, this.scale);
+    }
+
+    if (this.state === Enemy.STATE_ALERT) {
+      this.animation.renderActuaFrame('run', this.x, this.y, this.scale);
     }
 
     if (this.inAlert) {

@@ -9,7 +9,6 @@ export default class Rubi extends Treasure {
 
     this.width = 24;
     this.height = 24;
-    this.speed = 4;
     this.maxFrames = 4;
     this.frameSpeed = 6;
     this.particleColor = 'rgb(206, 85, 87)';

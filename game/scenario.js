@@ -37,21 +37,21 @@ export default class Scenario {
       image: loadImage('./game/imgs/back03.png'),
       x1: 0,
       x2: width,
-      speed: 2
+      speed: 3
     });
 
     Scenario.layers.push({
       image: loadImage('./game/imgs/forest03.png'),
       x1: 0,
       x2: width,
-      speed: 3.2
+      speed: 4
     });
 
     Scenario.layers.push({
       image: loadImage('./game/imgs/forest04.png'),
       x1: 0,
       x2: width,
-      speed: 4.2
+      speed: 5
     });
     // Scenario.layers.push(loadImage('./game/imgs/forest05.png'));
 

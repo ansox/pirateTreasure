@@ -36,7 +36,7 @@ export default class Bomb {
       height: 45
     }
 
-    this.grounded = 0;
+    this.grounded = false;
 
     this.state = Bomb.STATE_BOMB;
 
@@ -73,7 +73,7 @@ export default class Bomb {
 
       if (this.y > this.initalY) {
         this.y = this.initalY;
-        this.distance = -4;
+        this.distance = -5;
         this.grounded = true;
       }
 
